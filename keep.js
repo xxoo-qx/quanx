@@ -16,14 +16,14 @@
 const $ = new Env('keep打卡');
 let status;
 
-status = (status = ($.getval("jiaochengstatus") || "1")) > 1 ? `${status}` : "";
+status = (status = ($.getval("keepstatus") || "1")) > 1 ? `${status}` : "";
 
-const jiaochengurlArr = [], jiaochenghdArr = [], jiaochengcount = ''
+const keepurlArr = [], keephdArr = [], keepcount = ''
 
 //定义
 
-let jiaochengurl = $.getdata('jiaochengurl')
-let jiaochenghd = $.getdata('jiaochenghd')
+let keepurl = $.getdata('keepurl')
+let keephd = $.getdata('keephd')
 
 
 
@@ -31,19 +31,19 @@ let jiaochenghd = $.getdata('jiaochenghd')
 !(async () => {
     if (typeof $request !== "undefined") {
 
-        jiaochengck()
+        keepck()
 
     } else {
-        jiaochengurlArr.push($.getdata('jiaochengurl'))
-        jiaochenghdArr.push($.getdata('jiaochenghd'))
+        keepurlArr.push($.getdata('keepurl'))
+        keephdArr.push($.getdata('keephd'))
 
 
-        let jiaochengcount = ($.getval('jiaochengcount') || '1');
+        let keepcount = ($.getval('keepcount') || '1');
 
-        for (let i = 2; i <= jiaochengcount; i++) {
+        for (let i = 2; i <= keepcount; i++) {
 
-            jiaochengurlArr.push($.getdata(`jiaochengurl${i}`))
-            jiaochenghdArr.push($.getdata(`jiaochenghd${i}`))
+            keepurlArr.push($.getdata(`keepurl${i}`))
+            keephdArr.push($.getdata(`keephd${i}`))
 
 
         }
@@ -55,12 +55,12 @@ let jiaochenghd = $.getdata('jiaochenghd')
                 8 * 60 * 60 * 1000
             ).toLocaleString()} ===============================================\n`);
 
-        for (let i = 0; i < jiaochenghdArr.length; i++) {
+        for (let i = 0; i < keephdArr.length; i++) {
 
-            if (jiaochenghdArr[i]) {
+            if (keephdArr[i]) {
 
-                jiaochengurl = jiaochengurlArr[i];
-                jiaochenghd = jiaochenghdArr[i];
+                keepurl = keepurlArr[i];
+                keephd = keephdArr[i];
 
 
                 $.index = i + 1;
@@ -88,15 +88,15 @@ let jiaochenghd = $.getdata('jiaochenghd')
 
 
 //获取ck
-function jiaochengck() {
+function keepck() {
     if ($request.url.indexOf("getAdVideoReward") > -1) {
-        const jiaochengurl = $request.url
-        if (jiaochengurl) $.setdata(jiaochengurl, `jiaochengurl${status}`)
-        $.log(jiaochengurl)
+        const keepurl = $request.url
+        if (keepurl) $.setdata(keepurl, `keepurl${status}`)
+        $.log(keepurl)
 
-        const jiaochenghd = JSON.stringify($request.headers)
-        if (jiaochenghd) $.setdata(jiaochenghd, `jiaochenghd${status}`)
-        $.log(jiaochenghd)
+        const keephd = JSON.stringify($request.headers)
+        if (keephd) $.setdata(keephd, `keephd${status}`)
+        $.log(keephd)
 
         $.msg($.name, "", `keep打卡${status}获取headers成功`)
 
@@ -112,7 +112,7 @@ function bankuai(timeout = 0) {
 
         let url = {
             url: ``,
-            headers: JSON.parse(jiaochenghd),
+            headers: JSON.parse(keephd),
         }
 
         $.get(url, async (err, resp, data) => {
